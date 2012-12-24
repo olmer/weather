@@ -15,33 +15,51 @@ $latestPicNum = $pictures->getPicturesCount() % Weather_Curl::PICTURES_NUM;
         margin: 0 auto;
     }
 
+    .controls-container {
+        position: absolute;
+        width: 28px;
+        left: 50%;
+    }
     #controls {
-        margin: 20px auto 0;
-        width: 690px;
+        position: absolute;
+        width: 28px;
+        left: -408px;
+        top: 18px;
     }
 
     #controls a {
+        display: block;
+        width: 28px;
         border: 1px solid #ccc;
         text-decoration: none;
-        margin: 0 5px;
+        margin: 3px 5px;
         padding: 3px 5px;
+        font-size: 10px;
+        font-family: Helvetica, serif;
+        border-radius: 3px;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
     }
 
     #controls a.activeSlide {
-        background: #ea0
+        background: #10a4bf;
+        color: white;
     }
 </style>
 <script>
     $(function () {
         $('#cycle_weather')
-            .before('<div id="controls"></div><br/>')
+            .before('<div class="controls-container"><div id="controls"></div></div><br/>')
             .cycle({
                 fx:'fade',
                 speed:'fast',
                 timeout:0,
                 speed:300,
                 next:'#cycle_weather',
-                pager:'#controls'
+                pager:'#controls',
+                pagerAnchorBuilder: function (k, v) {
+                    return '<a href="">' + $(v).attr('data-time-created') + '</a>';
+                }
             });
     });
 </script>
@@ -50,7 +68,8 @@ $latestPicNum = $pictures->getPicturesCount() % Weather_Curl::PICTURES_NUM;
 <div id="cycle_weather"><?php
     for ($ii = Weather_Curl::PICTURES_NUM + $latestPicNum; $ii > $latestPicNum; $ii--) {
         $picNum = $ii % Weather_Curl::PICTURES_NUM;
-        ?><img src="/weather_pictures/weather_cache_file<?php echo $picNum?>.png" alt="weather"/><?php
+        $time = @filemtime(__DIR__ . '/weather_pictures/weather_cache_file' . $picNum . '.png');
+        ?><img src="/weather_pictures/weather_cache_file<?php echo $picNum?>.png" alt="weather" data-time-created="<?php echo date('H:i', $time)?>"/><?php
     }
     ?>
 </div>
