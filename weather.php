@@ -8,7 +8,7 @@ $latestPicNum = $pictures->getPicturesCount() % Weather_Curl::PICTURES_NUM;
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="/js/jquery-1.7.2.min.js"></script>
     <script src="/js/jquery.cycle.all.js"></script>
 <style>
     #cycle_weather {
