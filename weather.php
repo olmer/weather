@@ -45,6 +45,14 @@ $latestPicNum = $pictures->getPicturesCount() % Weather_Curl::PICTURES_NUM;
         background: #10a4bf;
         color: white;
     }
+
+    #help {
+        position: relative;
+        margin-left: 46%;
+        top: 48px;
+        font-size: 12px;
+        font-family: Helvetica, serif;
+    }
 </style>
 <script>
     window.isMobile = function() {
@@ -110,5 +118,6 @@ $latestPicNum = $pictures->getPicturesCount() % Weather_Curl::PICTURES_NUM;
 <body>
 <div id="cycle_weather">
 </div>
+<span id="help">Click on image to scroll</span>
 </body>
 </html>
