@@ -62,20 +62,21 @@ $latestPicNum = $pictures->getPicturesCount() % Weather_Curl::PICTURES_NUM;
     };
     $(function () {
         var $pics = $('<?php
-            for ($ii = Weather_Curl::PICTURES_NUM + $latestPicNum; $ii > $latestPicNum; $ii--) {
+            for ($ii = $latestPicNum + 1; $ii <= Weather_Curl::PICTURES_NUM + $latestPicNum; $ii++) {
                 $picNum = $ii % Weather_Curl::PICTURES_NUM;
                 $time = @filemtime(__DIR__ . '/weather_pictures/weather_cache_file' . $picNum . '.png');
                 ?><img data-src="/weather_pictures/weather_cache_file<?php echo $picNum?>.png" alt="weather" data-time-created="<?php echo date('H:i', $time)?>"/><?php
             }?>'),
             $container = $('#cycle_weather');
-        var initCarousel = function ($obj) {
+        var initCarousel = function ($obj,startingSlide) {
             $obj
                 .before('<div class="controls-container"><div id="controls"></div></div>')
                 .cycle({
                     fx:'fade',
                     speed:'fast',
                     timeout:0,
-                    next:'#cycle_weather',
+                    prev:'#cycle_weather',
+                    startingSlide:startingSlide ? startingSlide : 19,
                     pager:'#controls',
                     pagerAnchorBuilder: function (k, v) {
                         return '<a href="">' + $(v).attr('data-time-created') + '</a>';
@@ -88,18 +89,20 @@ $latestPicNum = $pictures->getPicturesCount() % Weather_Curl::PICTURES_NUM;
             } else {
                 return $pics.map(function(){$(this).attr('src', $(this).data('src'));return this;})
             }
-        };
+        },
+        startingSlide;
         if (isMobile()) {
             $container
                 .append(getPreparedPics(0, 2))
                 .before($('<span data-load="first" class="more">load more</span>'));
+            startingSlide = 1;
             $('span[data-load="first"]').on('click', function () {
                 $container.remove();
                 $('.controls-container').remove();
                 $(this).remove();
                 $container = $('<div id="cycle_weather"></div>').append(getPreparedPics(0, 5)).appendTo('body')
                     .before($('<span data-load="second" class="more">load even more</span>'));
-                initCarousel($container);
+                initCarousel($container, 4);
                 $('span[data-load="second"]').on('click', function () {
                     $container.remove();
                     $(this).remove();
@@ -111,7 +114,7 @@ $latestPicNum = $pictures->getPicturesCount() % Weather_Curl::PICTURES_NUM;
         } else {
             $container.append($pics.map(function(){$(this).attr('src', $(this).data('src'));return this;}));
         }
-        initCarousel($container);
+        initCarousel($container, startingSlide);
     });
 </script>
 </head>
