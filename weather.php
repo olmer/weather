@@ -93,14 +93,14 @@ $latestPicNum = $pictures->getPicturesCount() % Weather_Curl::PICTURES_NUM;
         startingSlide;
         if (isMobile()) {
             $container
-                .append(getPreparedPics(0, 2))
+                .append(getPreparedPics(18, 20))
                 .before($('<span data-load="first" class="more">load more</span>'));
             startingSlide = 1;
             $('span[data-load="first"]').on('click', function () {
                 $container.remove();
                 $('.controls-container').remove();
                 $(this).remove();
-                $container = $('<div id="cycle_weather"></div>').append(getPreparedPics(0, 5)).appendTo('body')
+                $container = $('<div id="cycle_weather"></div>').append(getPreparedPics(15, 20)).appendTo('body')
                     .before($('<span data-load="second" class="more">load even more</span>'));
                 initCarousel($container, 4);
                 $('span[data-load="second"]').on('click', function () {
